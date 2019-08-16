@@ -1,0 +1,421 @@
+*{
+	outline:0;
+	margin:0;
+	padding:0;
+}
+
+body{
+	background-color:rgba(50, 255, 100, 0.4);
+	font-size:16px;
+	font-family: 'Roboto Slab', serif;
+}
+
+.main{
+	display:block;
+	margin:auto;
+	width:80%;
+      	border-radius:5px;
+      	box-shadow:0 0 10px #006600;
+	padding:50px;
+	margin-top:50px;
+	background-color: #E5FFEE; /*old: #ccffdd */
+	color:#006400;
+}
+
+.main p{
+	font-size:1.2em;
+}
+
+header{
+	display: block;
+	width:100%;
+	text-align: center;
+	padding: 30px 0 70px 0;
+}
+
+header > h1{
+	font-family: 'Concert One', cursive;
+	font-size:3em;
+	text-align:center;
+	padding:30px 0;
+	display:inline;
+}
+
+header h1 > span{
+	background-color: darkgreen;
+	color: white;
+	padding: 0 25px;
+	border-radius: 60px;
+}
+
+/* Not Needed, Remove Later */
+.main > h1{
+	font-family: 'Concert One', cursive;
+	font-size:3em;
+	text-align:center;
+	padding:30px 0 70px 0;
+}
+/* ----------------------- */
+
+.side-menu{
+	background-color:#006600;
+	color:white;
+      	border-radius:5px;
+	float:left;
+	width:25%;
+	}
+
+.side-menu h2{
+	padding:15px 0;
+}
+
+.side-menu nav{
+	padding:20px;
+}
+
+.side-menu ul li{
+	display:block;
+	padding:15px 0;
+	clear:both;
+}
+
+.side-menu ul li a{
+	text-decoration:none;
+	color:white;
+}
+
+.side-menu ul li a:hover{
+	transition: 0.2s linear color;
+	color:yellow;
+}
+
+.main-section{
+	float:left;
+	width:75%;
+}
+
+.main-section h2{
+	font-size:2em;
+}
+
+.main-section p{
+	padding:15px 50px;
+	line-height:2;
+}
+
+.main-section ul{
+	display: block;
+	width: 50%;
+	margin: auto;
+}
+
+.equation-form{
+	display:block;
+	margin:auto;
+	padding:30px;
+	text-align:center;
+}
+
+#equation-input, .system-input{
+	border: 2px solid #00cc00;
+	border-radius:5px;
+	padding:10px;
+	font-size:1.2em;
+	width:80%;
+	margin:auto;
+	display:block;
+	cursor:text;
+	background-color: white;
+	position:relative;
+}
+
+#equation-input:hover, .system-input:hover{
+	box-shadow: 0 0 8px #00cc00;
+}
+
+#equation-input:focus, .system-input:hover{
+	border: 2px solid #006600;
+	box-shadow: 0 0 8px #006600;
+}
+
+.system-input{
+	margin-top: 20px;
+}
+
+.main h2{
+	text-align:center;
+}
+
+.dropdown{
+	display: inline-block;
+	font-weight:bold;
+	cursor: pointer;
+	font-size: 1.5em;
+	padding:5px;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.dropdown:hover{
+	color:yellow;
+}
+
+nav ul li ul{
+	display:none;
+	width:80%;
+	float: right;
+}
+
+nav ul li ul li{
+	font-size:1em;
+	padding:5px;
+}
+
+.equation-submit-button{
+	display:block;
+	margin:30px auto;
+	background-color:#006600;
+	color:white;
+	font-size:1em;
+	font-family:'Roboto Slab', serif;
+	padding:15px;
+	border-radius:5px;
+	border:2px solid #003300;
+	width:max-content;
+}
+
+.equation-submit-button:hover{
+	cursor:pointer;
+	box-shadow: 0 0 8px #006600;
+}
+
+.equation-submit-button:active{
+	background-color:#ccffcc;
+	color:#006600;
+}
+
+#equation-display{
+	display:block;
+	margin:auto;
+	padding:20px;
+	text-align:center;
+	font-size:1.5em;
+	overflow: auto;
+}
+
+.symbol-container{
+display:block;
+margin:auto;
+width:90%;
+background-color:white;
+border-radius:5px;
+border:2px solid #003300;
+padding:10px;
+}
+
+.symbol-item{
+	border:1px solid #00cc00;
+	padding:5px 10px;
+	background-color:#fffccc;
+	display: inline;
+	margin: 0 5px;
+	font-size:1.2em;
+}
+
+.symbol-item:hover{
+box-shadow: 0 0 2px #006600;
+cursor:pointer;
+}
+
+.input-item{
+	display:inline;
+}
+
+.sup{
+	display:inline;
+	vertical-align:super;
+	/*border:1px solid red;*/
+	padding:0 2px;
+}
+
+.sup-hidden{
+	display:none;
+}
+
+.sup:focus{
+	border:1px solid blue;
+}
+
+.fraction{
+	display: inline-block;
+	position:relative;
+	text-align: center;
+	padding:0 2px;
+	vertical-align: bottom;
+}
+
+.numerator{
+	display:inherit;
+	width:100%;
+}
+
+.denominator{
+	display:block;
+	width:100%;
+	float:left;
+	left:0;
+	top:25px;
+	border-top: 2px solid darkgreen;
+}
+
+/*#textarea, .system-textarea{*/
+#textarea{
+	position: absolute;
+    width: 100%;
+    left: 0;
+    height: 100%;
+	top: 0;
+	opacity:0;
+}
+
+.system-textarea{
+	resize: none;
+    padding: 15px 5px 0 5px;
+    border: 2px solid darkgreen;
+    border-radius: 5px;
+    color: #006400;
+    font-size: 1em;
+    display: block;
+    margin: auto;
+    margin-top: 20px;
+    width: 40%;
+    text-align: center;
+    font-size: 1.2em;
+    font-family: "Roboto Slab", serif;
+}
+
+#cursor{
+	display:inline;
+	
+}
+
+.equation-form > p{
+	display:none;
+}
+
+.empty{
+	box-shadow:0 0 2px red;
+	padding:0 2px;
+	background-color: #ffffee;
+}
+
+#frac{
+	font-size:.6em;
+	padding-top: 15px;
+	padding-bottom: 7px;
+}
+
+.derivative-container, .container{
+	text-align: center;
+    display: block;
+	padding: 30px 0;
+	font-size:1.2em;
+}
+
+#derivative-variable, .container-field{
+	resize: none;
+    text-align: center;
+	padding: 10px 5px 3px 5px;
+	height:25px;
+	width:25px;
+	vertical-align: middle;
+	border:2px solid darkgreen;	
+	color:#006400;
+	font-size:1em;
+}
+
+#num-rows, #num-cols, #upper-limit, #lower-limit, 
+#num-rows-1, #num-cols-1, #num-rows-2, #num-cols-2{
+	width:40px;
+	overflow:hidden;
+	color:#006400;
+	font-size:1em;
+}
+
+#upper-limit, #lower-limit{
+	width:120px;
+}
+
+#derivative-error{
+	color:red;
+	text-align: center;
+	display:block;
+	margin: auto;
+	padding-top:15px;
+}
+
+.error{
+	border:2px solid darkred !important;
+	box-shadow: 0 0 5px red;
+}
+
+.matrix{
+	display:block;
+	margin:auto;
+}
+
+.row{
+	display:block;
+}
+
+tbody{
+	display: inline;
+	margin: auto;
+	text-align: -webkit-center;
+}
+
+.column > textarea{
+	border:2px solid green;
+	resize: none;
+	overflow: hidden;
+	text-align: center;
+	width:60px;
+	padding-top:20px;
+	font-size:1.2em;
+}
+
+#matrix-1, #matrix-2{
+	float:left;
+	width:45%;
+}
+
+#matrix-operation{
+	float: left;
+	width:10%;
+	display: block;
+	text-align: center;
+	background-color: white;
+	border:2px solid darkgreen;
+	font-size:2em;
+}
+
+#matrix-operation option:hover{
+	background-color: red;
+}
+
+.integral{
+	font-size:1.6em;
+}
+
+.left{
+	float:left;
+	width:50%;
+}
+
+.system-input{
+
+}

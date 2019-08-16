@@ -1,0 +1,4 @@
+django
+gunicorn
+django-heroku
+sympy == 1.4

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Concert+One&display=swap" rel="stylesheet">
+	
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async>
+		MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+	</script>
+	{% load static %}
+
+	<link href="{% static 'css/main.css' %}" rel="stylesheet">
+	<script type="text/javascript" src="{% static 'scripts/init.js' %}"></script>
+    <script type="text/javascript" src="{% static 'scripts/latex.js' %}"></script>
+</head>
+<body onload="initAlt('matrix-ops-menu'); document.getElementById('linear-algebra-menu').nextElementSibling.style.display = 'block'; document.getElementById('matrix-ops-menu').style.color = '#ffffff'; document.getElementById('matrix-addition-menu').style.color = '#fff000'; " id="body">
+	<div class="main">
+		{% include "header.html" %}
+		{% include "menu.html" %}
+		<div class="main-section">
+			<h2>Matrix Addition/Subtraction</h2>
+			<form class="equation-form" method="post">{% csrf_token %}
+				{{ form.as_p }}
+				<div class="container">
+					<span>Enter the number of rows (max 5):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+					<textarea class="container-field" id="num-rows" oninput="updateRows(this)"></textarea>
+					<span id="row-error"></span>
+				</div><div class="container">
+						<span>Enter the number of columns (max 5):&nbsp; </span>
+						<textarea class="container-field" id="num-cols" oninput="updateRows(this)"></textarea>
+						<span id="col-error"></span>
+					</div>
+				
+				<div class="matrices-container" oninput="updateBothMatrices('addition')">
+				<table class="matrix" id="matrix-1">
+					<tr class="row">
+						<td class="column"><textarea></textarea></td>
+						<td class="column"><textarea></textarea></td>
+						<td class="column"><textarea></textarea></td>
+					</tr>
+					<tr class="row">
+						<td class="column"><textarea></textarea></td>
+						<td class="column"><textarea></textarea></td>
+						<td class="column"><textarea></textarea></td>
+					</tr>
+					<tr class="row">
+						<td class="column"><textarea></textarea></td>
+						<td class="column"><textarea></textarea></td>
+						<td class="column"><textarea></textarea></td>
+					</tr>
+				</table>
+				<select id="matrix-operation">
+					<option value="+">+</option>
+					<option value="-">-</option>
+				</select>				
+				<table class="matrix" id="matrix-2">
+						<tr class="row" id="row-2-1">
+							<td class="column"><textarea id="col-2-1-1"></textarea></td>
+							<td class="column"><textarea id="col-2-1-2"></textarea></td>
+							<td class="column"><textarea id="col-2-1-3"></textarea></td>
+						</tr>
+						<tr class="row" id="row-2-2">
+							<td class="column"><textarea id="col-2-2-1"></textarea></td>
+							<td class="column"><textarea id="col-2-2-2"></textarea></td>
+							<td class="column"><textarea id="col-2-2-3"></textarea></td>
+						</tr>
+						<tr class="row" id="row-2-3">
+							<td class="column"><textarea id="col-2-3-1"></textarea></td>
+							<td class="column"><textarea id="col-2-3-2"></textarea></td>
+							<td class="column"><textarea id="col-2-3-3"></textarea></td>
+						</tr>
+					</table>
+				</div>
+				<!--<div id="matrix-1">
+					<div class="row" id="row-1-1">
+						<div class="column" id="col-1-1-1"></div>
+						<div class="column" id="col-1-1-2"></div>
+						<div class="column" id="col-1-1-3"></div>
+					</div>
+					<div class="row" id="row-1-2">
+						<div class="column" id="col-1-2-1"></div>
+						<div class="column" id="col-1-2-2"></div>
+						<div class="column" id="col-1-2-3"></div>
+					</div>
+					<div class="row" id="row-1-3">
+						<div class="column" id="col-1-3-1"></div>
+						<div class="column" id="col-1-3-2"></div>
+						<div class="column" id="col-1-3-3"></div>
+					</div>
+				</div>-->
+				<br style="clear:both;"/>
+				<input class="equation-submit-button" type="submit" value="Submit">
+            </form>
+            <div id="equation-display">{{ formattedEquation }}</div>
+		</div>
+		<div style="clear:both;">
+		</div>
+	</div>
+	<br />
+	<br />
+</body>
+</html>

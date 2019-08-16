@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Concert+One&display=swap" rel="stylesheet">
+	
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async>
+		MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+	</script>
+	{% load static %}
+
+	<link href="{% static 'css/main.css' %}" rel="stylesheet">
+	<script type="text/javascript" src="{% static 'scripts/init.js' %}"></script>
+    <script type="text/javascript" src="{% static 'scripts/latex.js' %}"></script>
+</head>
+<body onload="init(); initAlt('ODE-menu'); document.getElementById('ODE-menu').style.color = '#ffffff'; document.getElementById('first-order-menu').style.color = '#fff000';" id="body">
+	<div class="main">
+		{% include "header.html" %}
+		{% include "menu.html" %}
+		<div class="main-section">
+			<h2>First Order ODE</h2>
+			{% include "symbol-bar-systems.html" %}
+			<form class="equation-form" method="post">{% csrf_token %}
+				{{ form.as_p }}
+				<div class="derivative-container">
+					<span>Enter the variable you are finding the solution for (ex. enter y for $y'+t*y$):</span>
+					<textarea id="derivative-variable" oninput="validateDerivativeVariable('differential equation')"></textarea>
+					<div id="derivative-error"></div>
+				</div>
+				<div id="equation-input">
+					<textarea tabindex="-1" id="textarea"></textarea><div id="cursor" class="1">|</div></div>
+				<input class="equation-submit-button" type="submit" value="Submit">
+            </form>
+            <div id="equation-display">{{ formattedEquation }}</div>
+		</div>
+		<div style="clear:both;">
+		</div>
+	</div>
+	<br />
+	<br />
+</body>
+</html>
