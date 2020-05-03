@@ -2,8 +2,6 @@ function populateEquations(){
 	var numVars = document.getElementById("simplex-vars").value;
 	var numConstraints = document.getElementById("simplex-constraints").value;
 
-	console.log("vars: " + numVars + ", constraints: " + numConstraints);
-
 	var simplexEquations = document.getElementsByClassName("simplex-equations");
 	var constraintsContainer = document.getElementById("simplex-constraint-container");
 	
@@ -24,12 +22,6 @@ function populateEquations(){
 			}
 		}
 	}
-
-	var containers = document.getElementsByClassName("container-field");
-	for(var i = 0; i < containers.length; i++){
-		//console.log();
-		//containers[i].oninput = updateSimplex();
-	}
 }
 
 function updateSimplex(){
@@ -43,10 +35,7 @@ function updateSimplex(){
 
 	textarea.innerHTML = numVars + "|" + numConstraints + "|" + document.getElementById("simplex-version").value + ",";
 	for(var i = 0; i < simplexEquations.length; i++){
-		//var constants = simplexEquations.children;
-		console.log(simplexEquations[i].innerHTML);
 		for(var j = 0; j < numVars; j++){
-			//console.log(simplexEquations[i].children[j*2]);
 			var temp = simplexEquations[i].children[j*2].value;
 			
 			if(temp == ""){
@@ -58,12 +47,7 @@ function updateSimplex(){
 			if(j != (numVars - 1)){
 				textarea.innerHTML += ",";
 			}
-			//textarea.innerHTML += simplexEquations
-			//console.log(j*2);
 		}
-
-		//console.log((numVars*2));
-		//console.log("Length:" + simplexEquations[i].children.length);
 		if(i != 0){
 			console.log(simplexEquations[i].children[(numVars*2)].value);
 			var temp = simplexEquations[i].children[(numVars*2)+1].value;
@@ -76,10 +60,6 @@ function updateSimplex(){
 		}else{
 			textarea.innerHTML += "|";
 		}
-		//console.log(simplexEquations[i].children[(numVars*2)-1].value);
-		//textarea.innerHTML += simplexEquations[i].children[(numVars*2)].value + ", " + simplexEquations[i].children[(numVars*2)+1].value + "|";
 	}
-
-	alert(textarea.innerHTML);
 
 }
