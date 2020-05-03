@@ -20,6 +20,16 @@ def index(request):
 		form = MathForm()
 	return render(request, "index.html", {"form": form, "formattedEquation": formattedEquation})
 
+def simplex(request):
+	formattedEquation = ""
+	if request.method == "POST":
+		form = MathForm(request.POST)
+		if form.is_valid():
+			formattedEquation = simplexMethod(form.cleaned_data["textarea"])
+	else:
+		form = MathForm()
+	return render(request, "simplex.html", {"form": form, "formattedEquation": formattedEquation})
+
 def algebra(request):
 	return render(request, "algebra.html")
 

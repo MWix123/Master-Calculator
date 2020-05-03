@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Concert+One&display=swap" rel="stylesheet">
+	
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async>
+		MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+	</script>
+	{% load static %}
+	<style>
+		.main-section{
+			float:none !important;
+			width:100% !important;
+		}
+
+		header{
+			padding:30px 0 15px 0 !important;
+		}
+
+		select{
+			background-color:white;
+			border: 2px solid darkgreen;
+			color: #006400;
+    		font-size: 1em;
+		}
+
+		.container-field{
+			width:70px !important;
+			font-size:0.9em !important;
+		}
+
+		.simplex-equations{
+			display: inline;
+			padding: 0 20px;
+		}
+	</style>
+	<link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <script type="text/javascript" src="{% static 'scripts/simplex.js' %}"></script>
+</head>
+<body id="body">
+	<div class="main">
+		<div class="main-section">
+			<header>
+				<h1><span>Simplex Method</span>Calculator</h1>
+			</header>
+			<form class="equation-form" method="post">{% csrf_token %}
+				{{ form.as_p }}
+				<div class="container">
+					<span>Select number of variables:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+					<select id="simplex-vars" onchange="populateEquations()">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+					</select>
+					<span id="row-error"></span>
+				</div><div class="container">
+						<span>Select number of constraints:&nbsp; </span>
+						<select id="simplex-constraints" onchange="populateEquations()">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+						</select><span id="col-error"></span>
+					</div>
+					<h2>Equation To Optimize</h2>
+					<div class="container">
+						<select id="simplex-version">
+							<option value="max">Max</option>
+							<option value="min">Min</option>
+						</select>
+						<div class="simplex-equations">
+							<textarea class="container-field"></textarea>
+							<span>x<sub>1</sub></span>
+						</div>
+					</div>
+					<h2>Constraints</h2>
+					<div id="simplex-constraint-container">
+						<div class="simplex-equations">
+							<textarea class="container-field"></textarea>
+							<span>x<sub>1</sub></span>
+							<select class="simplex-inequality">
+								<option value="less">&le;</option>
+								<option value="more">&ge;</option>
+							</select>
+							<textarea class="container-field simplex-b"></textarea>
+						</div>
+					</div>
+				<br style="clear:both;"/>
+				<input class="equation-submit-button" type="submit" onclick="updateSimplex()" value="Submit">
+            </form>
+			<!-- <p onclick="updateSimplex()" >Click a</p>-->
+            <div id="equation-display">{{ formattedEquation | safe}}</div>
+		</div>
+		<div style="clear:both;">
+		</div>
+	</div>
+	<br />
+	<br />
+</body>
+</html>

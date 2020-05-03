@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name="index"),
     path('algebra/', views.algebra, name="algebra"),
+    path('simplex/', views.simplex, name="simplex"),
     path('algebra/equations', views.algebra_equations, name="algebra_equations"),
     path('algebra/equations/solve-equation', views.algebra_equations_solve_equation, name="algebra_equations_solve_equation"),
     path('algebra/equations/system', views.algebra_equations_system, name="algebra_equations_system"),

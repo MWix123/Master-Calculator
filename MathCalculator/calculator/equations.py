@@ -1,6 +1,205 @@
 #import numpy as np
 #import compiler
 import sympy as sp
+import math
+
+def simplexMethod(equation):
+	print(equation)
+	parts = equation.split("|")
+	numVars = int(parts[0])
+	numConstraints = int(parts[1])
+	print("Vars:",numVars,"constraints:",numConstraints)
+	opFunction = []
+	temp = parts[2].split(",")
+	operator = temp[0]
+	print("Operator:",operator)
+	for i in range(1, numVars+1):
+		opFunction.append(float(temp[i]))
+	print("Opt:",opFunction)
+
+	# parse constraints
+	equations = []
+	for i in range(3,3+numConstraints):
+		temp = []
+		source = parts[i].split(",")
+		for j in range(0,len(source)):
+			if j != len(source)- 2:
+				temp.append(float(source[j]))
+			else:
+				temp.append(source[j])
+		equations.append(temp)
+
+	print("Equations:",equations)
+
+	# convert optimization function to max
+	if operator == "min":
+		for i in range(0, len(opFunction)):
+			opFunction[i] = -1*opFunction[i]
+	print("Fixed Opt:",opFunction)
+
+	# convert all equations to less than or equal to inequalities
+	length = len(equations[0])
+	numSlack = 0
+	for i in range(0, len(equations)):
+		print("|",equations[i][length-2],"|",sep="")
+		if equations[i][length-2] == "more":
+			print("here")
+			for j in range(0, length):
+				if j != (length-2):
+					equations[i][j] = -1*equations[i][j]
+		equations[i][length-2] = "<"
+		numSlack += 1
+	
+	# flip sign for all constants in constraint
+	for i in range(0, len(opFunction)):
+		opFunction[i] = -1*opFunction[i]
+	
+	# construct initial tableau
+	tableau = []
+	for i in range(0, len(equations)):
+		row = []
+		for j in range(0,length-2):
+			row.append(equations[i][j])
+			#if j != (length-2):
+			#	row.append(equations[i][j])
+
+		for j in range(0, numSlack):
+			if i == j:
+				row.append(1)
+			else:
+				row.append(0)
+		row.append(equations[i][length-1])
+		tableau.append(row)
+
+	row = []
+	for i in range(0, len(opFunction)):
+		row.append(opFunction[i])
+	for i in range(0,numSlack+1):
+		row.append(0)
+	tableau.append(row)
+
+
+	# adjust tableau based on negative entries
+	for i in range(0, len(tableau)-1):
+		if tableau[i][len(tableau[0])-1] < 0:
+			negativeIndex = 0
+			for j in range(0, len(tableau[0])-1):
+				if tableau[i][j] < 0:
+					negativeIndex = j
+					#break
+			
+			print("i:",i,"Neg:",negativeIndex)
+
+			# scale row
+			scaleFactor = tableau[i][negativeIndex]
+			for j in range(len(tableau[0])):
+				tableau[i][j] = tableau[i][j]/scaleFactor
+		
+			# row reduce
+			for j in range(0, len(tableau)):
+				if j != i:
+					scaleFactor = tableau[j][negativeIndex]
+					for k in range(0, len(tableau[0])):
+						tableau[j][k] = tableau[j][k] - scaleFactor*tableau[i][k]
+	
+	print("Fixed initial tableau:")
+	for row in tableau:
+		print(row)
+
+	# perform simplex method
+	maxOps = 1
+	if numVars > numConstraints:
+		maxOps = math.factorial(numVars)/(math.factorial(numConstraints)*math.factorial(numVars-numConstraints))
+	else:
+		maxOps = 2**numVars
+
+	for i in range(0, maxOps):
+		maxNegative = 0
+		maxNegativeIndex = 0
+		minRatio = float('inf')
+		targetIndex = 0
+		#ratio = 1
+		
+		for j in range(0, len(tableau[0])-1):
+			if tableau[len(tableau)-1][j] < maxNegative:
+				maxNegative = tableau[len(tableau)-1][j]
+				maxNegativeIndex = j
+	
+		if maxNegative == 0:
+			break
+
+		ratios = []
+		for j in range(0, len(tableau)):
+			# compute max ratio of b/A(j,1)
+			if tableau[j][maxNegativeIndex] > 0:
+				if tableau[j][len(tableau[0])-1]/tableau[j][maxNegativeIndex] < minRatio:
+					targetIndex = j
+					minRatio = tableau[j][len(tableau[0])-1]/tableau[j][maxNegativeIndex]
+
+		if minRatio == float("inf"):
+			return "No solution"
+		
+		print("Min ratio:",minRatio,"at: (",(targetIndex+1),",",(maxNegativeIndex+1),"), max negative:",maxNegative)
+
+		# reduce row of pivot index
+		scaleFactor = tableau[targetIndex][maxNegativeIndex]
+		for k in range(len(tableau[0])):
+			tableau[targetIndex][k] = tableau[targetIndex][k]/scaleFactor
+		
+		# row reduce
+		for j in range(0, len(tableau)):
+			if j != targetIndex:
+				scaleFactor = tableau[j][maxNegativeIndex]
+				for k in range(0, len(tableau[0])):
+					tableau[j][k] = tableau[j][k] - scaleFactor*tableau[targetIndex][k]
+
+		print("Iteraion:",i,"tableau:",tableau)
+		
+
+	print("Equations:",equations)
+	print("Tableau:",tableau)
+	
+	values = []
+	for i in range(0,len(tableau[0])-1):
+		flag = True
+		counter = 0
+		index = 0
+		for j in range(len(tableau)):
+			if tableau[j][i] != 1 and tableau[j][i] != 0:
+				flag = False
+			if tableau[j][i] == 1:
+				counter = counter + 1
+				index = j
+		if flag == True and counter == 1:
+			values.append(tableau[index][len(tableau[0])-1])
+		else:
+			values.append(0)
+				
+
+
+	formattedString = "<h3>Final Tableau</h3><br />$\\left[\\begin{matrix}"
+	for i in range(0, len(tableau)):
+		for j in range(0, len(tableau[0])):
+			if j == len(tableau[i]) - 1:
+				if i == len(tableau)-1:
+					formattedString += "\\boxed{"
+				formattedString += str(tableau[i][j])
+				if i == len(tableau)-1:
+					formattedString += "}"
+			else:	
+				formattedString += str(tableau[i][j]) + " &"
+		formattedString += "\\"
+		formattedString += "\\"
+	formattedString += "\\end{matrix}\\right]$<br /><br />"
+	
+	formattedString += "$"
+	for i in range(0, len(values)):
+		formattedString += "x_" + str(i+1) + "=" + str(values[i]) + ", "
+	formattedString += operator + "=" + str(tableau[len(tableau)-1][len(tableau[0])-1]) + "$"
+
+	return formattedString
+
+	
 
 def testEquationCalculator(equation):
 
